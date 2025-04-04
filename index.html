@@ -1,0 +1,638 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 1000px;
+                 height: 800px;
+                 background-color: #ffffff;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "#994F00", "id": "test_latrohesperus_33_unrelaxed_rank_001_alphafold2_ptm_model_3_seed_000", "label": " ", "shape": "dot", "size": 10, "species": "test_latrohesperus", "title": "Protein: test_latrohesperus_33_unrelaxed_rank_001_alphafold2_ptm_model_3_seed_000", "x": 383.748189406533, "y": -72.68608358517261}, {"color": "#994F00", "id": "test_latrohesperus_38_unrelaxed_rank_001_alphafold2_ptm_model_3_seed_000", "label": " ", "shape": "dot", "size": 10, "species": "test_latrohesperus", "title": "Protein: test_latrohesperus_38_unrelaxed_rank_001_alphafold2_ptm_model_3_seed_000", "x": 959.0793311975029, "y": 146.91195394157864}, {"color": "#994F00", "id": "test_latrohesperus_34_unrelaxed_rank_001_alphafold2_ptm_model_5_seed_000", "label": " ", "shape": "dot", "size": 10, "species": "test_latrohesperus", "title": "Protein: test_latrohesperus_34_unrelaxed_rank_001_alphafold2_ptm_model_5_seed_000", "x": 587.3119866663212, "y": 108.35828778997973}, {"color": "#D81B60", "id": "test_crotalus_2_102_unrelaxed_rank_001_alphafold2_ptm_model_3_seed_000", "label": " ", "shape": "dot", "size": 10, "species": "test_crotalus", "title": "Protein: test_crotalus_2_102_unrelaxed_rank_001_alphafold2_ptm_model_3_seed_000", "x": 1320.0106823900887, "y": 116.67491962816143}, {"color": "#882255", "id": "test_najanaja_35_unrelaxed_rank_001_alphafold2_ptm_model_2_seed_000", "label": " ", "shape": "dot", "size": 10, "species": "test_najanaja", "title": "Protein: test_najanaja_35_unrelaxed_rank_001_alphafold2_ptm_model_2_seed_000", "x": 809.1715764903819, "y": 224.42650684155927}, {"color": "#882255", "id": "test_najanaja_27_unrelaxed_rank_001_alphafold2_ptm_model_1_seed_000", "label": " ", "shape": "dot", "size": 10, "species": "test_najanaja", "title": "Protein: test_najanaja_27_unrelaxed_rank_001_alphafold2_ptm_model_1_seed_000", "x": 734.4233485542917, "y": 196.31845666079118}, {"color": "#882255", "id": "test_najanaja_26_unrelaxed_rank_001_alphafold2_ptm_model_5_seed_000", "label": " ", "shape": "dot", "size": 10, "species": "test_najanaja", "title": "Protein: test_najanaja_26_unrelaxed_rank_001_alphafold2_ptm_model_5_seed_000", "x": 1178.1696889049824, "y": 327.42697148166866}, {"color": "#004D40", "id": "test_sponsalis_46_unrelaxed_rank_001_alphafold2_ptm_model_4_seed_000", "label": " ", "shape": "dot", "size": 10, "species": "test_sponsalis", "title": "Protein: test_sponsalis_46_unrelaxed_rank_001_alphafold2_ptm_model_4_seed_000", "x": -47.144151661032296, "y": 183.05709326720037}, {"color": "#004D40", "id": "test_sponsalis_115_unrelaxed_rank_001_alphafold2_ptm_model_3_seed_000", "label": " ", "shape": "dot", "size": 10, "species": "test_sponsalis", "title": "Protein: test_sponsalis_115_unrelaxed_rank_001_alphafold2_ptm_model_3_seed_000", "x": 367.85344690221325, "y": 280.4594063930091}, {"color": "#5F8B4C", "id": "test_heloderma_42_unrelaxed_rank_001_alphafold2_ptm_model_4_seed_000", "label": " ", "shape": "dot", "size": 10, "species": "test_heloderma", "title": "Protein: test_heloderma_42_unrelaxed_rank_001_alphafold2_ptm_model_4_seed_000", "x": 129.27067019898493, "y": 494.4204906584729}, {"color": "#FF4807", "id": "test_shrew_81_unrelaxed_rank_001_alphafold2_ptm_model_3_seed_000", "label": " ", "shape": "dot", "size": 10, "species": "test_shrew", "title": "Protein: test_shrew_81_unrelaxed_rank_001_alphafold2_ptm_model_3_seed_000", "x": -118.80189384613622, "y": -72.18360486497237}]);
+                  edges = new vis.DataSet([{"from": "test_latrohesperus_33_unrelaxed_rank_001_alphafold2_ptm_model_3_seed_000", "to": "test_latrohesperus_38_unrelaxed_rank_001_alphafold2_ptm_model_3_seed_000"}, {"from": "test_latrohesperus_33_unrelaxed_rank_001_alphafold2_ptm_model_3_seed_000", "to": "test_latrohesperus_34_unrelaxed_rank_001_alphafold2_ptm_model_5_seed_000"}, {"from": "test_latrohesperus_33_unrelaxed_rank_001_alphafold2_ptm_model_3_seed_000", "to": "test_crotalus_2_102_unrelaxed_rank_001_alphafold2_ptm_model_3_seed_000"}, {"from": "test_latrohesperus_38_unrelaxed_rank_001_alphafold2_ptm_model_3_seed_000", "to": "test_latrohesperus_34_unrelaxed_rank_001_alphafold2_ptm_model_5_seed_000"}, {"from": "test_latrohesperus_38_unrelaxed_rank_001_alphafold2_ptm_model_3_seed_000", "to": "test_crotalus_2_102_unrelaxed_rank_001_alphafold2_ptm_model_3_seed_000"}, {"from": "test_latrohesperus_34_unrelaxed_rank_001_alphafold2_ptm_model_5_seed_000", "to": "test_crotalus_2_102_unrelaxed_rank_001_alphafold2_ptm_model_3_seed_000"}, {"from": "test_najanaja_35_unrelaxed_rank_001_alphafold2_ptm_model_2_seed_000", "to": "test_najanaja_27_unrelaxed_rank_001_alphafold2_ptm_model_1_seed_000"}, {"from": "test_najanaja_35_unrelaxed_rank_001_alphafold2_ptm_model_2_seed_000", "to": "test_najanaja_26_unrelaxed_rank_001_alphafold2_ptm_model_5_seed_000"}, {"from": "test_najanaja_27_unrelaxed_rank_001_alphafold2_ptm_model_1_seed_000", "to": "test_najanaja_26_unrelaxed_rank_001_alphafold2_ptm_model_5_seed_000"}, {"from": "test_sponsalis_46_unrelaxed_rank_001_alphafold2_ptm_model_4_seed_000", "to": "test_sponsalis_115_unrelaxed_rank_001_alphafold2_ptm_model_3_seed_000"}, {"from": "test_heloderma_42_unrelaxed_rank_001_alphafold2_ptm_model_4_seed_000", "to": "test_shrew_81_unrelaxed_rank_001_alphafold2_ptm_model_3_seed_000"}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {"physics": {"enabled": false}};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    
+    <!-- Load external data -->
+    <script>
+    fetch("data.json")
+      .then(response => response.json())
+      .then(data => {
+        window.query_targets = data.query_targets;
+        window.pair_metrics = data.pair_metrics;
+        window.query_align = data.query_align;
+        window.target_align = data.target_align;
+        window.query_pdb = data.query_pdb;
+        window.target_pdb = data.target_pdb;
+        window.query_superposed_pdb = data.query_superposed_pdb;
+        window.node_classification = data.classification;
+        window.species_colors = data.species_colors;
+      })
+      .catch(err => console.error("Error loading data.json:", err));
+    </script>
+
+    <!-- Updated side panel (only PDB view available) -->
+    <style>
+    #side-panel {
+        position: fixed;
+        top: 0;
+        right: 220px;
+        width: calc(50% - 220px);
+        height: 100%;
+        background: #fff;
+        border-left: 3px solid #007BFF;
+        padding: 20px;
+        overflow-y: auto;
+        box-shadow: -3px 0 10px rgba(0,0,0,0.1);
+    }
+    #nav-bar {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        position: fixed;
+        top: 0;
+        right: 0;
+        width: 220px;
+        height: 100%;
+        background-color: #f1f1f1;
+        overflow: auto;
+    }
+    #nav-bar li a {
+        display: block;
+        color: #000;
+        padding: 8px 16px;
+        text-decoration: none;
+    }
+    #nav-bar li a.active {
+        background-color: #04AA6D;
+        color: white;
+    }
+    #nav-bar li a:hover:not(.active) {
+        background-color: #555;
+        color: white;
+    }
+    </style>
+
+    <div id="side-panel">
+        <h3>Node Details</h3>
+        <div id="node-details" style="display:none;">
+            <div id="node-name">Click on a node to see details here</div>
+            <div id="structure-viewer"></div>
+            <div id="structure-option-container">
+                <label for="structure-view">Structure view: </label>
+                <select id="structure-view">
+                    <option value="pdb" selected>PDB Structure (PyMOL Super)</option>
+                </select>
+            </div>
+            <div id="classification-info"></div>
+            <div id="target-selector">
+                <button id="prev-target">&larr;</button>
+                <span id="target-index"></span>
+                <button id="next-target">&rarr;</button>
+            </div>
+            <div id="current-display"></div>
+            <div id="metrics-viewer"></div>
+            <div id="alignment-viewer"></div>
+        </div>
+        <div id="phylo-tree-panel" style="display:none;">
+            <h4>Phylogenetic Tree</h4>
+            <div id="phylo-tree"></div>
+            <button id="reset-species" style="margin-top:10px;">Reset Colors</button>
+        </div>
+    </div>
+
+    <ul id="nav-bar">
+        <li><a class="active" href="#node">Node Information</a></li>
+        <li><a href="#tree">Phylogenetic Tree</a></li>
+    </ul>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.4.4/lz-string.min.js"></script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://3Dmol.org/build/3Dmol-min.js"></script>
+
+    <script>
+    // Species colors mapping.
+        const speciesColors = {json.dumps(species_colors)};
+
+        var currentNode = null;
+        function interpolateBackboneFromXYZ(xyzString) {{
+            let lines = xyzString.trim().split('\n');
+            if (lines.length < 3) return xyzString;
+            let points = [];
+            for (let i = 2; i < lines.length; i++) {{
+                let parts = lines[i].trim().split(/\s+/);
+                if (parts.length >= 4) {{
+                    let x = parseFloat(parts[1]);
+                    let y = parseFloat(parts[2]);
+                    let z = parseFloat(parts[3]);
+                    points.push(new THREE.Vector3(x, y, z));
+                }}
+            }}
+            if (points.length < 2) return xyzString;
+            let curve = new THREE.CatmullRomCurve3(points);
+            let interpolatedPoints = curve.getPoints(points.length * 10);
+            let outStr = interpolatedPoints.length + "\n\n";
+            interpolatedPoints.forEach(pt => {{
+                outStr += "C " + pt.x.toFixed(3) + " " + pt.y.toFixed(3) + " " + pt.z.toFixed(3) + "\n";
+            }});
+            return outStr;
+        }}
+
+        function updateSidePanel(nodeName) {{
+            currentNode = nodeName;
+            let viewOption = document.getElementById("structure-view").value;
+            document.getElementById('node-name').innerHTML = "Node: " + nodeName;
+            
+            // Update classification info.
+            let classification = window.node_classification[nodeName] || [];
+            if (classification.length > 0) {{
+                let classificationHTML = "Classification: " + classification.map(item => `<a href="${{item.url}}" target="_blank">${{item.description}}</a>`).join(", ");
+                document.getElementById('classification-info').innerHTML = classificationHTML;
+            }} else {{
+                document.getElementById('classification-info').innerHTML = "Classification: N/A";
+            }}
+
+            let queryCoords = window.query_coords[nodeName] || "1\n\nC 0.0 0.0 0.0\n";
+            let targetCoords = "1\n\nC 0.0 0.0 0.0\n";
+            let queryPDB = window.query_pdb[nodeName] || "";
+            let targetPDB = "";
+            let targetList = window.query_targets[nodeName] || [];
+            let currentIndex = window.currentTargetIndex ? window.currentTargetIndex[nodeName] || 0 : 0;
+            if (targetList.length > 0) {{
+                let targetId = targetList[currentIndex];
+                targetPDB = window.query_pdb[targetId] || "";
+                targetCoords = window.target_coords[targetId] || "1\n\nC 0.0 0.0 0.0\n";
+            }} else {{
+                targetPDB = queryPDB;
+                targetCoords = window.target_coords[nodeName] || "1\n\nC 0.0 0.0 0.0\n";
+            }}
+            
+            document.getElementById('target-index').innerHTML = (targetList.length > 0) ?
+                ("Target: " + (currentIndex + 1) + " of " + targetList.length) : "No targets";
+            
+            let targetNodeName = (targetList.length > 0) ? targetList[currentIndex] : nodeName;
+            document.getElementById('current-display').innerHTML =
+                "Currently showing " + nodeName + " <span style='color:#40B0A6;'>&#9679;</span> and " +
+                targetNodeName + " <span style='color:#E1BE6A;'>&#9679;</span>.";
+            
+            let finalQueryCoords, finalTargetCoords;
+            if (viewOption === "pdb") {{
+                let key = "";
+                if (targetList.length > 0) {{
+                    key = nodeName + "||" + targetList[currentIndex];
+                }} else {{
+                    key = nodeName + "||" + nodeName;
+                }}
+                finalQueryCoords = window.query_superposed_pdb[key] || queryPDB;
+                finalTargetCoords = targetPDB;
+            }} else {{
+                let reconstructedQuery = interpolateBackboneFromXYZ(queryCoords);
+                let reconstructedTarget = interpolateBackboneFromXYZ(targetCoords);
+                finalQueryCoords = reconstructedQuery || queryCoords;
+                finalTargetCoords = reconstructedTarget || targetCoords;
+            }}
+            
+            let viewerContainer = document.getElementById('structure-viewer');
+            viewerContainer.innerHTML = "";
+            let viewer = $3Dmol.createViewer("structure-viewer", {{
+                defaultcolors: $3Dmol.rasmolElementColors
+            }});
+            viewer.removeAllModels();
+            try {{
+                if (viewOption === "pdb") {{
+                    let queryModel = viewer.addModel(finalQueryCoords, "pdb");
+                    queryModel.setStyle({{cartoon: {{color: '#40B0A6'}}}});
+                    let targetModel = viewer.addModel(finalTargetCoords, "pdb");
+                    targetModel.setStyle({{cartoon: {{color: '#E1BE6A'}}}});
+                }} else {{
+                    let queryModel = viewer.addModel(finalQueryCoords, "xyz");
+                    queryModel.setStyle({{stick: {{radius: 0.2}}, sphere: {{radius: 0.6, color: '#40B0A6'}}}});
+                    let targetModel = viewer.addModel(finalTargetCoords, "xyz");
+                    targetModel.setStyle({{stick: {{radius: 0.2}}, sphere: {{radius: 0.6, color: '#E1BE6A'}}}});
+                }}
+            }} catch (error) {{
+                console.error("Error loading models in 3Dmol.js", error);
+            }}
+            viewer.zoomTo();
+            viewer.render();
+            
+            let key = "";
+            if (targetList.length > 0) {{
+                key = nodeName + "||" + targetList[currentIndex];
+            }} else {{
+                key = nodeName + "||" + nodeName;
+            }}
+            let metrics = window.pair_metrics[key] || {{}};
+            let rmsd = (metrics.rmsd == null ? "N/A" : metrics.rmsd);
+            let probability = (metrics.probability == null ? "N/A" : metrics.probability);
+            let queryAlign = metrics.query_align || "";
+            let targetAlign = metrics.target_align || "";
+            document.getElementById('metrics-viewer').innerHTML = `RMSD: ${{rmsd}} | Probability: ${{probability}}`;
+            document.getElementById('alignment-viewer').innerHTML = `<pre>Query Alignment: ${{queryAlign}}
+Target Alignment: ${{targetAlign}}</pre>`;
+
+            // Update phylogenetic tree connections based on connected species.
+            updatePhyloConnections(nodeName);
+        }}
+
+        document.getElementById("structure-view").onchange = function() {{
+            if (currentNode) {{
+                updateSidePanel(currentNode);
+            }}
+        }};
+
+        document.getElementById("prev-target").onclick = function() {{
+            if (currentNode) {{
+                let targetList = window.query_targets[currentNode] || [];
+                if (targetList.length > 0) {{
+                    let index = window.currentTargetIndex ? window.currentTargetIndex[currentNode] || 0 : 0;
+                    index = (index - 1 + targetList.length) % targetList.length;
+                    if(!window.currentTargetIndex) window.currentTargetIndex = {{}};
+                    window.currentTargetIndex[currentNode] = index;
+                    updateSidePanel(currentNode);
+                }}
+            }}
+        }};
+        document.getElementById("next-target").onclick = function() {{
+            if (currentNode) {{
+                let targetList = window.query_targets[currentNode] || [];
+                if (targetList.length > 0) {{
+                    let index = window.currentTargetIndex ? window.currentTargetIndex[currentNode] || 0 : 0;
+                    index = (index + 1) % targetList.length;
+                    if(!window.currentTargetIndex) window.currentTargetIndex = {{}};
+                    window.currentTargetIndex[currentNode] = index;
+                    updateSidePanel(currentNode);
+                }}
+            }}
+        }};
+
+        // When the network is clicked, update the side panel and also record the selection.
+        window.onload = function() {{
+            let network = window.network;
+            network.on("click", function(properties) {{
+                if (properties.nodes.length > 0) {{
+                    let clickedNode = properties.nodes[0];
+                    if(!window.currentTargetIndex) window.currentTargetIndex = {{}};
+                    window.currentTargetIndex[clickedNode] = 0;
+                    updateSidePanel(clickedNode);
+                }}
+            }});
+        }};
+
+        let connectionGroup = null;
+        
+        function parseNewick(newick) {{
+        // Remove any trailing semicolon and trim whitespace.
+        newick = newick.trim();
+        if (newick.endsWith(";")) {{
+            newick = newick.slice(0, -1);
+        }}
+        // Split the string into tokens. Tokens include: (, ), ,, :, and text.
+        const tokens = newick.split(/\s*(;|\(|\)|,|:)\s*/).filter(t => t && t !== "");
+        let ancestors = [];
+        let tree = {{}};
+        
+        // Process each token.
+        for (let i = 0; i < tokens.length; i++) {{
+            const token = tokens[i];
+            switch (token) {{
+            case "(":
+                // Start a new subtree.
+                let subtree = {{}};
+                if (!tree.children) {{
+                tree.children = [];
+                }}
+                tree.children.push(subtree);
+                ancestors.push(tree);
+                tree = subtree;
+                break;
+            case ",":
+                // Start a new sibling.
+                let sibling = {{}};
+                ancestors[ancestors.length - 1].children.push(sibling);
+                tree = sibling;
+                break;
+            case ")":
+                // End the current subtree.
+                tree = ancestors.pop();
+                break;
+            case ":":
+                // Skip branch lengths.
+                i++; // jump over the branch length token.
+                break;
+            default:
+                // Token is a node name. Remove any extraneous quotes.
+                tree.name = token.replace(/^'+/, "").replace(/'+$/, "");
+            }}
+        }}
+        return tree;
+        }}
+
+        // 2. Define the mapping between scientific names and network node names.
+        const speciesMapping = {{
+            'Conus sponsalis': 'test_sponsalis',
+            'Crotalus oreganus': 'test_crotalus',
+            'Neotrygon kuhlii': 'test_sting',
+            'Vespa velutina': 'test_vespa',
+            'Blarina brevicauda': 'test_shrew',
+            'Naja naja': 'test_najanaja',
+            'Latrodectus hesperus': 'test_latrohesperus',
+            'Heloderma horridum': 'test_heloderma',
+            'Myrmica rubra': 'test_myrmica',
+            'Conus geographus': 'test_geographus',
+            'Meiacanthus atrodorsalis': 'test_blenny'
+        }};
+
+            // 3. Parse the Newick string
+        const newickString = "(('Neotrygon kuhlii':4,('Meiacanthus atrodorsalis':4,('Blarina brevicauda':4,(('Crotalus oreganus':4,'Naja naja':4)Colubroidea:4,'Heloderma horridum':4)Toxicofera:4)Amniota:4)Euteleostomi:4)Gnathostomata:4,((('Latrodectus hesperus':4,'Euscorpius italicus':4)Arachnida:4,(('Platymeris biguttatus':4,('Vespa velutina':4,'Myrmica rubra':4)Aculeata:4)Neoptera:4,'Scolopendra subspinipes':4)Mandibulata:4)Arthropoda:4,('Conus sponsalis':4,'Conus gloriamaris':4,'Conus geographus':4)Conus:4)Protostomia:4)Bilateria:4;";
+        const treeData = parseNewick(newickString);
+
+            // 4. Create a d3 cluster layout for a dendrogram.
+        const margin = {{top: 20, right: 20, bottom: 20, left: 20}};
+        // Define a desired ultrametric length for branch lengths.
+        const ultrametricLength = 500;  
+        // Set the SVG width to accommodate that length.
+        const svgWidth = 800 + margin.left + margin.right;
+        const svgHeight = 600 - margin.top - margin.bottom;
+
+        const svg = d3.select("#phylo-tree").append("svg")
+            .attr("width", svgWidth)
+            .attr("height", svgHeight)
+            .append("g")
+            .attr("transform", `translate(${{margin.left}},${{margin.top}})`);
+
+        // Use d3.cluster to create a dendrogram layout.
+        const clusterLayout = d3.cluster().size([svgHeight, ultrametricLength]);
+        const root = d3.hierarchy(treeData);
+        clusterLayout(root);
+
+        // Compute maximum depth.
+        const maxDepth = d3.max(root.descendants(), d => d.depth);
+
+        // Force all leaves to have the same depth (ultrametric tree: all leaves end at ultrametricLength).
+        root.leaves().forEach(leaf => {{ leaf.depth = maxDepth; }});
+
+        // Reassign horizontal positions so that all leaves get the same x-coordinate.
+        root.descendants().forEach(d => {{
+            d.y = (d.depth / maxDepth) * ultrametricLength;
+        }});
+
+        // Now, create a connection group for drawing red connectors.
+        connectionGroup = svg.append("g").attr("class", "phylo-connections");
+
+        // Attach the mapping: if a node’s scientific name exists in speciesMapping, add its network name.
+        root.descendants().forEach(d => {{
+            if (speciesMapping[d.data.name]) {{
+                d.data.testName = speciesMapping[d.data.name];
+            }}
+        }});
+
+        // Draw links (branches) as straight lines.
+        const linkGenerator = d3.linkHorizontal()
+            .x(d => d.y)
+            .y(d => d.x);
+
+        svg.selectAll(".link")
+            .data(root.links())
+            .enter()
+            .append("path")
+            .attr("class", "link")
+            .attr("d", linkGenerator)
+            .attr("fill", "none")
+            .attr("stroke", "#ccc")
+            .attr("stroke-width", 2)
+            .attr("stroke-dasharray", "4,2");
+
+        // Draw nodes as circles.
+        const nodeGroup = svg.selectAll(".node")
+            .data(root.descendants())
+            .enter()
+            .append("g")
+            .attr("class", "node")
+            .attr("transform", d => `translate(${{d.y}},${{d.x}})`);
+
+        nodeGroup.append("circle")
+            .attr("r", 8)
+            .attr("fill", d => {{
+                if (d.data.testName && speciesColors[d.data.testName]) {{
+                    return speciesColors[d.data.testName];
+                }}
+                return "#fff";
+            }})
+            .attr("stroke", "#007BFF")
+            .attr("stroke-width", 2)
+            .style("cursor", "pointer")
+            .on("click", function(event, d) {{
+                const selectedSpecies = d.data.testName || d.data.name;
+                updateNetworkColors(selectedSpecies);
+            }});
+
+        // Add labels to nodes.
+        nodeGroup.append("text")
+            .attr("dy", 4)
+            .attr("x", d => d.children ? -17 : 17)
+            .style("text-anchor", d => d.children ? "end" : "start")
+            .style("font-size", "10px")
+            .text(d => d.data.testName ? `${{d.data.name}} (${{d.data.testName}})` : d.data.name);
+
+        // Reset button to restore original colors.
+        document.getElementById("reset-species").onclick = function() {{
+            let allNodes = window.network.body.data.nodes.get();
+            allNodes.forEach(n => {{
+                n.color = speciesColors[n.species] || n.color;
+            }});
+            window.network.body.data.nodes.update(allNodes);
+            // Remove any drawn connection lines in the tree.
+            connectionGroup.selectAll("line").remove();
+        }};
+
+        root.each(d => {{
+        // Here, we set d.y to be proportional to the depth.
+        // All leaves (d.depth == maxDepth) will have d.y equal to treeWidth.
+        d.y = (d.depth / maxDepth) * (ultrametricLength*0.7);
+        }});
+
+        // After computing the tree layout, automatically compute species positions:
+        let speciesPositions = {{}};
+        root.descendants().forEach(d => {{
+        if (d.data.testName) {{
+            // Here we assume d.y is the horizontal coordinate and d.x the vertical
+            speciesPositions[d.data.testName] = {{ x: d.y, y: d.x }};
+            }}
+        }});
+
+        // Define a fixed large x-value for the connector zone. You can use the maximum x in the tree plus a margin.
+        const maxX = d3.max(root.descendants(), d => d.y);
+        const connectorX = maxX + 400;  // adjust the x value as needed
+
+        function updatePhyloConnections(selectedNodeId) {{
+        // Remove previous connectors.
+        connectionGroup.selectAll("path").remove();
+        
+        // Get the species for the selected clustering node.
+        let selectedSpecies = window.network.body.data.nodes.get(selectedNodeId).species;
+        
+        // Gather the species of connected nodes.
+        let connectedIds = window.network.getConnectedNodes(selectedNodeId);
+        let speciesSet = new Set();
+        speciesSet.add(selectedSpecies);
+        connectedIds.forEach(id => {{
+            let node = window.network.body.data.nodes.get(id);
+            if (node && node.species) speciesSet.add(node.species);
+        }});
+        let speciesArray = Array.from(speciesSet);
+        
+        // For each connected species, draw a connector from the selected species to that species.
+        speciesArray.forEach(species => {{
+            // Skip drawing a line to itself.
+            if (species === selectedSpecies) return;
+            
+            // Ensure both positions are available.
+            if (speciesPositions[selectedSpecies] && speciesPositions[species]) {{
+            let posA = speciesPositions[selectedSpecies];  // starting point (selected node species)
+            let posB = speciesPositions[species];            // ending point (connected node species)
+            
+            // Build the path: from posA go horizontally to connectorX, then vertically to posB's y, then horizontally to posB.x.
+            let pathData = `M ${{posA.x + 300}} ${{posA.y}} H ${{connectorX}} V ${{posB.y}} H ${{posB.x + 300}}`;
+            
+            connectionGroup.append("path")
+                .attr("d", pathData)
+                .attr("stroke", "red")
+                .attr("stroke-width", 2)
+                .attr("fill", "none");
+            }}
+        }});
+        }}
+
+        document.querySelectorAll("#nav-bar li a").forEach(item => {{
+            item.addEventListener("click", function(e) {{
+                e.preventDefault();
+                let target = this.getAttribute("href");
+                if(target === "#node"){{
+                    document.getElementById("node-details").style.display = "block";
+                    document.getElementById("phylo-tree-panel").style.display = "none";
+                }} else if(target === "#tree"){{
+                    document.getElementById("node-details").style.display = "none";
+                    document.getElementById("phylo-tree-panel").style.display = "block";
+                }}
+                // Update active state:
+                document.querySelectorAll("#nav-bar li a").forEach(a => a.classList.remove("active"));
+                this.classList.add("active");
+            }});
+        }});
+        </script>
+    
+</body>
+</html>
