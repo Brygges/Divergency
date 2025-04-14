@@ -24,7 +24,7 @@ jobs:
           pip install pyinstaller flask
           # Add any other dependencies required by your app
 
-      - name: Run PyInstaller to create executable
+      - name: Run PyInstaller to make executable
         run: |
           # Replace 'your_app.py' with the name of your main script.
           pyinstaller --onefile flaskrun.py
