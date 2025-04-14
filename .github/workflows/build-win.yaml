@@ -34,4 +34,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: windows-executable
-          path: dist/flaskrun  # adjust if your binary has a different name
+          path: dist/flaskrun.exe  # adjust if your binary has a different name
