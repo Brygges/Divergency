@@ -2,11 +2,12 @@ from flask import Flask, send_file, abort, request
 import os, sys
 import webbrowser, threading
 
-if hasattr(sys, '_MEIPASS'):
-    # When bundled as onefile, PyInstaller extracts resources to sys._MEIPASS.
-    base_path = sys._MEIPASS
+if getattr(sys, 'frozen', False):
+    # When the application is run as a bundled executable,
+    # sys.executable points to the executable file.
+    base_path = os.path.dirname(sys.executable)
 else:
-    # Otherwise, use the directory of the executable/script.
+    # When running in a normal Python environment, __file__ is the script's filename.
     base_path = os.path.dirname(os.path.abspath(__file__))
 
 app = Flask(__name__)
