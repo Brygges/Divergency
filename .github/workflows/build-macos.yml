@@ -31,7 +31,7 @@ jobs:
           # PyInstaller will create a "dist" directory containing your binary.
 
       - name: Upload macOS Executable Artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: macos-executable
           path: dist/your_app  # adjust if your binary has a different name
