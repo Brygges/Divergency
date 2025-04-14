@@ -27,7 +27,7 @@ jobs:
       - name: Run PyInstaller to create executable
         run: |
           # Replace 'your_app.py' with the name of your main script.
-          pyinstaller --onefile your_app.py
+          pyinstaller --onefile flaskrun.py
           # PyInstaller will create a "dist" directory containing your binary.
 
       - name: Upload macOS Executable Artifact
