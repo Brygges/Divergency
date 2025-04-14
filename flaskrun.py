@@ -45,6 +45,11 @@ def serve_superposed(filename):
     else:
         abort(404, description="Superposed PDB file not found")
 
+@app.route('/images/<path:filename>')
+def images(filename):
+    image_path = os.path.join(base_path, "images", f"{filename}")
+    return send_file(image_path, mimetype='text/plain')
+
 def open_browser():
     import time; time.sleep(1)
     webbrowser.open("http://127.0.0.1:5000")
