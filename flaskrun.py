@@ -48,7 +48,7 @@ def serve_superposed(filename):
 @app.route('/images/<path:filename>')
 def images(filename):
     image_path = os.path.join(base_path, "images", f"{filename}")
-    return send_file(image_path, mimetype='text/plain')
+    return send_file(image_path, mimetype="image/x-icon")
 
 def open_browser():
     import time; time.sleep(1)
