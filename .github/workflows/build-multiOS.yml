@@ -29,11 +29,12 @@ jobs:
         run: pip install gdown
 
       - name: Download backend data from Google Drive
+        shell: bash
         env:
           DRIVE_FOLDER_ID: ${{ secrets.DRIVE_FOLDER_ID }}
         run: |
           mkdir -p backend
-          gdown "https://docs.google.com/uc?export=download&id=${DRIVE_FOLDER_ID}" -O backend/backend.tar.gz
+          gdown "https://docs.google.com/uc?export=download&id=${DRIVE_FOLDER_ID}" --fuzzy -O backend/backend.tar.gz
           file backend/backend.tar.gz
           tar -xzf backend/backend.tar.gz
           rm backend/backend.tar.gz
