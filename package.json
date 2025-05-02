@@ -1,0 +1,46 @@
+{
+  "name": "network-desktop",
+  "version": "1.0.0",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder"
+  },
+  "devDependencies": {
+    "electron": "^25.0.0",
+    "electron-builder": "^24.0.0"
+  },
+  "dependencies": {
+    "got": "^12.0.0",
+    "unzipper": "^0.11.0",
+    "tar": "^6.1.11"
+  },
+  "build": {
+    "appId": "com.sbrygge.networkdesktop",
+    "productName": "Network Desktop",
+    "files": [
+      "src/**/*",
+      "backend/**/*",
+      "python-portable/**/*",
+      "assets/icon.png"
+    ],
+    "directories": {
+      "buildResources": "assets"
+    },
+    "mac": {
+      "target": [
+        "dmg",
+        "zip"
+      ]
+    },
+    "win": {
+      "target": "nsis"
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ]
+    }
+  }
+}
