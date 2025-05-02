@@ -19,26 +19,27 @@
     "appId": "com.sbrygge.networkdesktop",
     "productName": "Network Desktop",
     "files": [
-      "**/*",        
-      "!dist/**",    
-      "!**/.git/**", 
+      "**/*",
+      "!dist/**",
+      "!.git/**"
     ],
-   "directories": {
-     "buildResources": "assets"
-   },
-   "mac": {
-     "target": [
-       "dmg",
-       "zip"
-     ]
-   },
-   "win": {
-     "target": "nsis"
-   },
-   "linux": {
-     "target": [
-       "AppImage",
-       "deb"
-     ]
-   }
- }
+    "directories": {
+      "buildResources": "assets"
+    },
+    "mac": {
+      "target": [
+        "dmg",
+        "zip"
+      ]
+    },
+    "win": {
+      "target": "nsis"
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ]
+    }
+  }
+}
