@@ -33,7 +33,7 @@ jobs:
           DRIVE_FOLDER_ID: ${{ secrets.DRIVE_FOLDER_ID }}
         run: |
           mkdir -p backend
-          gdown DRIVE_FOLDER_ID -O backend/backend.tar.gz
+          gdown https://drive.google.com/file/d/1KgsBeUIu0tXvP5UGyto-rSZblVFW03Jo/view?usp=sharing -O backend/backend.tar.gz
           tar -xzf backend/backend.tar.gz
           rm backend/backend.tar.gz
 
