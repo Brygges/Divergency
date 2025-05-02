@@ -19,10 +19,10 @@
     "appId": "com.sbrygge.networkdesktop",
     "productName": "Network Desktop",
     "files": [
-      "**/*",        // include all files
-      "!dist/**",    // but exclude your previous build artifacts
-      "!**/.git/**", // and any git metadata
-      "!**/node_modules/**/.cache/**" // optionally trim caches
+      "**/*",        
+      "!dist/**",    
+      "!**/.git/**", 
+      "!**/node_modules/**/.cache/**"
     ],
     "directories": {
       "buildResources": "assets"
