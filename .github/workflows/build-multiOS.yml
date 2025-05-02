@@ -34,6 +34,7 @@ jobs:
         run: |
           mkdir -p backend
           gdown "https://drive.usercontent.google.com/download?id=1KgsBeUIu0tXvP5UGyto-rSZblVFW03Jo&export=download&authuser=0" -O backend/backend.tar.gz
+          file backend/backend.tar.gz
           tar -xzf backend/backend.tar.gz
           rm backend/backend.tar.gz
 
