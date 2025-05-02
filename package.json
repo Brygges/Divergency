@@ -19,28 +19,16 @@
     "appId": "com.sbrygge.networkdesktop",
     "productName": "Network Desktop",
     "files": [
-      "src/**/*",
-      "backend/**/*",
-      "python-portable/**/*",
-      "assets/icon.png"
+      "**/*",        // include all files
+      "!dist/**",    // but exclude your previous build artifacts
+      "!**/.git/**", // and any git metadata
+      "!**/node_modules/**/.cache/**" // optionally trim caches
     ],
     "directories": {
       "buildResources": "assets"
     },
-    "mac": {
-      "target": [
-        "dmg",
-        "zip"
-      ]
-    },
-    "win": {
-      "target": "nsis"
-    },
-    "linux": {
-      "target": [
-        "AppImage",
-        "deb"
-      ]
-    }
+    "mac": { "target": ["dmg","zip"] },
+    "win": { "target": "nsis" },
+    "linux": { "target": ["AppImage","deb"] }
   }
 }
