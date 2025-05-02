@@ -38,7 +38,7 @@ jobs:
           file backend/backend.tar.gz
           tar -xzf backend/backend.tar.gz
           rm backend/backend.tar.gz
-      
+          
       - name: Build standalone executable
         shell: bash
         run: |
@@ -52,6 +52,12 @@ jobs:
             --add-data=backend/data.json:data.json \
             --hidden-import=flask.cli \
             flaskrun.py
+
+      - name: Install create-dmg via Homebrew
+        if: runner.os == 'macOS'
+        run: |
+          brew update
+          brew install create-dmg
             
       - name: Package installer
         run: |
