@@ -6,7 +6,7 @@
   "main": "src/main.js",
   "scripts": {
     "start": "electron .",
-    "dist": "electron-builder"
+    "dist": "electron-builder --publish never"
   },
   "devDependencies": {
     "electron": "^25.0.0",
@@ -20,7 +20,6 @@
   "build": {
     "appId": "com.sbrygge.networkdesktop",
     "productName": "Network Desktop",
-    "publish": "never",
     "files": [
       "**/*",
       "!dist/**",
