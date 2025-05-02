@@ -33,7 +33,7 @@ jobs:
           DRIVE_FOLDER_ID: ${{ secrets.DRIVE_FOLDER_ID }}
         run: |
           mkdir -p backend
-          gdown --folder DRIVE_FOLDER_ID -O backend/backend.tar.gz
+          gdown DRIVE_FOLDER_ID -O backend/backend.tar.gz
           tar -xzf backend/backend.tar.gz
           rm backend/backend.tar.gz
 
