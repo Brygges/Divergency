@@ -41,6 +41,8 @@ jobs:
           curl -L https://drive.usercontent.google.com/download?id=1KgsBeUIu0tXvP5UGyto-rSZblVFW03Jo&export=download&authuser=0 | tar xz -C backend
 
       - name: Build desktop app
+        env:
+          ELECTRON_BUILDER_NO_PUBLISH: "true"
         run: npm run dist
 
       - name: Upload build artifacts
