@@ -50,7 +50,6 @@ jobs:
             --add-data=backend/node_clusters.json:node_clusters.json \
             --add-data=backend/allspecies_db:allspecies_db \
             --add-data=backend/data.json:data.json \
-            --add-data=foldseek:foldseek \
             --hidden-import=flask.cli \
             flaskrun.py
             
