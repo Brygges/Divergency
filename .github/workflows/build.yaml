@@ -48,6 +48,11 @@ jobs:
           unset CI
           npm run dist
 
+      - name: Zip .app folder manually
+        run: |
+          cd dist/mac-arm64
+          zip -r ../Network-Desktop-mac.zip "Network Desktop.app"
+
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
