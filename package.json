@@ -31,7 +31,6 @@
     },
     "mac": {
       "target": [
-        "dmg",
         "zip"
       ]
     },
