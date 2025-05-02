@@ -42,6 +42,7 @@ jobs:
 
       - name: Build desktop app
         env:
+          CI: "false"
           ELECTRON_BUILDER_NO_PUBLISH: "true"
         run: npm run dist
 
