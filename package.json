@@ -20,7 +20,7 @@
   "build": {
     "appId": "com.sbrygge.networkdesktop",
     "productName": "Network Desktop",
-    "publish": ["never"],
+    "publish": [],
     "files": [
       "**/*",
       "!dist/**",
