@@ -2,7 +2,7 @@
   "name": "network-desktop",
   "version": "1.0.0",
   "description": "Cross-platform desktop app for Toxin Network analysis",
-  "author": "Brygge"
+  "author": "Brygge",
   "main": "src/main.js",
   "scripts": {
     "start": "electron .",
