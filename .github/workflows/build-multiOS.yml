@@ -38,24 +38,24 @@ jobs:
           file backend/backend.tar.gz
           tar -xzf backend/backend.tar.gz
           rm backend/backend.tar.gz
-
+      
       - name: Build standalone executable
+        shell: bash
         run: |
           pyinstaller \
             --onefile \
             --add-data=templates:templates \
             --add-data=static:static \
+            --add-data=backend/AllSpecies:AllSpecies \
             --add-data=backend/Superposed:Superposed \
             --add-data=backend/images:images \
-            --add-data=backend/AllSpecies:AllSpecies \
-            --add-data=backendSuperposed:allspecies_db:allspecies_db \
             --add-data=backend/node_clusters.json:node_clusters.json \
+            --add-data=backend/allspecies_db:allspecies_db \
             --add-data=backend/data.json:data.json \
-            --add-data=backend:backend \
             --add-data=foldseek:foldseek \
-            --hidden-import flask.cli \
+            --hidden-import=flask.cli \
             flaskrun.py
-
+            
       - name: Package installer
         run: |
           if [[ "${{ matrix.os }}" == "macos-latest" ]]; then
