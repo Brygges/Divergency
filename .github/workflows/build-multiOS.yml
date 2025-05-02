@@ -44,7 +44,6 @@ jobs:
         run: |
           pyinstaller \
             --onefile \
-            --add-data=templates:templates \
             --add-data=static:static \
             --add-data=backend/AllSpecies:AllSpecies \
             --add-data=backend/Superposed:Superposed \
