@@ -10,7 +10,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        os: [ubuntu-latest, macos-latest]
 
     steps:
       - name: Checkout source code
@@ -38,7 +38,7 @@ jobs:
       - name: Download backend parts
         run: |
           mkdir -p backend
-          curl -L https://drive.google.com/file/d/1KgsBeUIu0tXvP5UGyto-rSZblVFW03Jo/view?usp=drive_link | tar xz -C backend
+          curl -L https://drive.usercontent.google.com/download?id=1KgsBeUIu0tXvP5UGyto-rSZblVFW03Jo&export=download&authuser=0 | tar xz -C backend
 
       - name: Build desktop app
         run: npm run dist
