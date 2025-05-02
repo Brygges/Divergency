@@ -44,7 +44,9 @@ jobs:
         env:
           CI: "false"
           ELECTRON_BUILDER_NO_PUBLISH: "true"
-        run: npm run dist
+        run: |
+          unset CI
+          npm run dist
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
