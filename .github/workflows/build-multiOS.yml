@@ -43,16 +43,16 @@ jobs:
         run: |
           pyinstaller \
             --onefile \
-            --add-data="templates:templates" \
-            --add-data="static:static" \
-            --add-data=backend/Superposed:Superposed \
-            --add-data=backend/images:images \
-            --add-data=backend/AllSpecies:AllSpecies \
-            --add-data=backendSuperposed:allspecies_db:allspecies_db \
-            --add-data=backend/node_clusters.json:node_clusters.json \
-            --add-data=backend/data.json:data.json \
-            --add-data=backend:backend \
-            --add-data=foldseek:foldseek \
+            --add-data templates:templates \
+            --add-data static:static \
+            --add-data backend/Superposed:Superposed \
+            --add-data backend/images:images \
+            --add-data backend/AllSpecies:AllSpecies \
+            --add-data backendSuperposed:allspecies_db:allspecies_db \
+            --add-data backend/node_clusters.json:node_clusters.json \
+            --add-data backend/data.json:data.json \
+            --add-data backend:backend \
+            --add-data foldseek:foldseek \
             --hidden-import flask.cli \
             flaskrun.py
 
