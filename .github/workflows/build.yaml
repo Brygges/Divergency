@@ -2,8 +2,8 @@ name: Network Desktop
 
 on:
   push:
-    tags:
-      - 'v*'  # e.g. v1.0.0
+    branches: [ main ]
+  pull_request:
 
 jobs:
   build:
