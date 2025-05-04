@@ -81,19 +81,28 @@ jobs:
       
       - name: Create Windows installer
         if: matrix.os == 'windows-latest'
-        # Use PowerShell so we can use backslashes naturally
         shell: pwsh
         run: |
-          Write-Host "Current directory:"
-          pwd
-          Write-Host "Listing files:"
-          Get-ChildItem -Recurse | Select-Object FullName
+          $codeDir   = $Env:GITHUB_WORKSPACE
+          $repoRoot  = Split-Path $codeDir -Parent
+          $exePath   = Join-Path $codeDir "dist\Divergency.exe"
+          $nsiScript = Join-Path $repoRoot "installer.nsi"
 
-          # Ensure we're at the repo root (where installer.nsi lives)
-          Set-Location $Env:GITHUB_WORKSPACE
+          Write-Host "Code directory: $codeDir"
+          Write-Host "Repo root:      $repoRoot"
+          Write-Host "Looking for EXE at: $exePath"
+          Write-Host "Looking for NSI at: $nsiScript"
 
-          # Build the NSIS installer, pointing at the freshly-built EXE
-          & makensis -DOUTPUT_EXE="$Env:GITHUB_WORKSPACE\dist\Divergency.exe" "$Env:GITHUB_WORKSPACE\installer.nsi"
+          if (-not (Test-Path $exePath)) {
+            Write-Error "❌ Cannot find Divergency.exe at $exePath"
+            exit 1
+          }
+          if (-not (Test-Path $nsiScript)) {
+            Write-Error "❌ Cannot find installer.nsi at $nsiScript"
+            exit 1
+          }
+
+          & makensis -DOUTPUT_EXE="$exePath" "$nsiScript"
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
