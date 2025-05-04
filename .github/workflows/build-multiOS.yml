@@ -62,10 +62,12 @@ jobs:
       - name: Package installer
         run: |
           if [[ "${{ matrix.os }}" == "macos-latest" ]]; then
-            create-dmg dist/flaskrun.app \
-              --overwrite \
-              --out=dist \
-              --name="MyFlaskApp"
+            create-dmg \
+            --overwrite \
+            --dmg-title="Divergency" \
+            --app-drop-link \
+            dist/Divergency.app \
+            dist
           else
             makensis -DOUTPUT_EXE="dist\\flaskrun.exe" installer.nsi
           fi
