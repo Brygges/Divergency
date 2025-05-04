@@ -15,61 +15,77 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up Python
+      - name: Set up Python & gdown
         uses: actions/setup-python@v4
         with:
           python-version: '3.10'
-
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt pyinstaller gdown
-      
-      - name: Install gdown
-        run: pip install gdown
 
-      - name: Download backend data from Google Drive
+      - name: Download & unpack backend data
         shell: bash
         env:
-          DRIVE_FOLDER_ID: ${{ secrets.DRIVE_FOLDER_ID }}
+          DRIVE_DATA_FILE_ID: ${{ secrets.DRIVE_DATA_FILE_ID }}
         run: |
           mkdir -p backend
-          gdown "https://docs.google.com/uc?export=download&id=${DRIVE_FOLDER_ID}" --fuzzy -O backend/backend.tar.gz
-          file backend/backend.tar.gz
-          tar -xzf backend/backend.tar.gz
+          gdown --id ${DRIVE_DATA_FILE_ID} --fuzzy -O backend/backend.tar.gz
+          tar -xzf backend/backend.tar.gz -C backend
           rm backend/backend.tar.gz
-          
-      - name: Build standalone executable
+
+      - name: Build standalone bundle
         shell: bash
         run: |
-          pyinstaller \
-            --name=Divergency \
-            --windowed \
-            --add-data=backend/AllSpecies:AllSpecies \
-            --add-data=backend/Superposed:Superposed \
-            --add-data=backend/images:images \
-            --add-data=backend/node_clusters.json:node_clusters.json \
-            --add-data=backend/allspecies_db:allspecies_db \
-            --add-data=backend/data.json:data.json \
-            --hidden-import=flask.cli \
-            flaskrun.py
+          # On macOS this creates dist/Divergency.app via --windowed
+          # On Windows it creates dist/Divergency.exe via --onefile --noconsole
+          if [[ "${{ matrix.os }}" == "windows-latest" ]]; then
+            pyinstaller \
+              --name=Divergency \
+              --onefile \
+              --noconsole \
+              --add-data=backend/AllSpecies;AllSpecies \
+              --add-data=backend/Superposed;Superposed \
+              --add-data=backend/images;images \
+              --add-data=backend/node_clusters.json;node_clusters.json \
+              --add-data=backend/allspecies_db;allspecies_db \
+              --add-data=backend/data.json;data.json \
+              --hidden-import=flask.cli \
+              flaskrun.py
+          else
+            pyinstaller \
+              --name=Divergency \
+              --windowed \
+              --add-data=backend/AllSpecies:AllSpecies \
+              --add-data=backend/Superposed:Superposed \
+              --add-data=backend/images:images \
+              --add-data=backend/node_clusters.json:node_clusters.json \
+              --add-data=backend/allspecies_db:allspecies_db \
+              --add-data=backend/data.json:data.json \
+              --hidden-import=flask.cli \
+              flaskrun.py
+          fi
 
       - name: Create macOS DMG
         if: matrix.os == 'macos-latest'
         shell: bash
         run: |
+          ls dist
+          # dist/Divergency.app must exist
           hdiutil create \
             dist/Divergency.dmg \
             -volname "Divergency" \
             -srcfolder dist/Divergency.app \
             -ov -format UDZO
 
-      # Windows: wrap the .exe in an NSIS installer
       - name: Create Windows installer
         if: matrix.os == 'windows-latest'
         shell: bash
         run: |
-          makensis -DOUTPUT_EXE="dist\Divergency.exe" installer.nsi
+          # Make sure installer.nsi lives at the repo root; otherwise `cd` into the right folder
+          ls dist
+          cd .
+          makensis -DOUTPUT_EXE="dist\\Divergency.exe" installer.nsi
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
