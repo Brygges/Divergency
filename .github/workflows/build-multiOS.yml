@@ -83,27 +83,20 @@ jobs:
         if: matrix.os == 'windows-latest'
         shell: pwsh
         run: |
-          $ws = $Env:GITHUB_WORKSPACE
-          Write-Host "Searching for installer.nsi under $ws …"
-
-          $script = Get-ChildItem -Path $ws -Filter installer.nsi -Recurse -ErrorAction SilentlyContinue |
-                    Select-Object -First 1
-
-          if (-not $script) {
-            Write-Error "❌ installer.nsi not found anywhere under $ws"
+          $ws     = $Env:GITHUB_WORKSPACE
+          $script = Join-Path $ws "installer.nsi"
+          $exe    = Join-Path $ws "dist\Divergency.exe"
+      
+          if (-not (Test-Path $script)) {
+            Write-Error "installer.nsi not found at $script"
             exit 1
           }
-
-          $exe = Join-Path $ws "dist\Divergency.exe"
-          Write-Host "Using NSI script: $($script.FullName)"
-          Write-Host "Using EXE:        $exe"
-
           if (-not (Test-Path $exe)) {
-            Write-Error "❌ Cannot find Divergency.exe at $exe"
+            Write-Error "Divergency.exe not found at $exe"
             exit 1
           }
-
-          & makensis -DOUTPUT_EXE="$exe" "$($script.FullName)"
+      
+          & makensis -DOUTPUT_EXE="$exe" "$script"
           
       - name: Upload artifact
         uses: actions/upload-artifact@v4
