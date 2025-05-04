@@ -83,15 +83,16 @@ jobs:
         if: matrix.os == 'windows-latest'
         shell: pwsh
         run: |
+          # Where the runner checked out your repo
           $codeDir   = $Env:GITHUB_WORKSPACE
-          $repoRoot  = Split-Path $codeDir -Parent
+          # Path to the built EXE
           $exePath   = Join-Path $codeDir "dist\Divergency.exe"
-          $nsiScript = Join-Path $repoRoot "installer.nsi"
+          # installer.nsi lives next to your code, not above it
+          $nsiScript = Join-Path $codeDir "installer.nsi"
 
           Write-Host "Code directory: $codeDir"
-          Write-Host "Repo root:      $repoRoot"
-          Write-Host "Looking for EXE at: $exePath"
-          Write-Host "Looking for NSI at: $nsiScript"
+          Write-Host "Looking for EXE at:    $exePath"
+          Write-Host "Looking for NSI at:    $nsiScript"
 
           if (-not (Test-Path $exePath)) {
             Write-Error "❌ Cannot find Divergency.exe at $exePath"
@@ -102,6 +103,7 @@ jobs:
             exit 1
           }
 
+          # Run NSIS with full paths
           & makensis -DOUTPUT_EXE="$exePath" "$nsiScript"
 
       - name: Upload artifact
