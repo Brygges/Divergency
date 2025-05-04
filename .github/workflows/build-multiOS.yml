@@ -62,12 +62,11 @@ jobs:
       - name: Package installer
         run: |
           if [[ "${{ matrix.os }}" == "macos-latest" ]]; then
-            create-dmg \
-            --overwrite \
-            --dmg-title="Divergency" \
-            --app-drop-link \
-            dist/Divergency.app \
-            dist
+            hdiutil create \
+            dist/Divergency.dmg \
+            -volname "Divergency" \
+            -srcfolder dist/Divergency.app \
+            -ov -format UDZO
           else
             makensis -DOUTPUT_EXE="dist\\flaskrun.exe" installer.nsi
           fi
