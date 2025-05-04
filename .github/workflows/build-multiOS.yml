@@ -83,29 +83,28 @@ jobs:
         if: matrix.os == 'windows-latest'
         shell: pwsh
         run: |
-          # Where the runner checked out your repo
-          $codeDir   = $Env:GITHUB_WORKSPACE
-          # Path to the built EXE
-          $exePath   = Join-Path $codeDir "dist\Divergency.exe"
-          # installer.nsi lives next to your code, not above it
-          $nsiScript = Join-Path $codeDir "installer.nsi"
+          $ws = $Env:GITHUB_WORKSPACE
+          Write-Host "Searching for installer.nsi under $ws …"
 
-          Write-Host "Code directory: $codeDir"
-          Write-Host "Looking for EXE at:    $exePath"
-          Write-Host "Looking for NSI at:    $nsiScript"
+          $script = Get-ChildItem -Path $ws -Filter installer.nsi -Recurse -ErrorAction SilentlyContinue |
+                    Select-Object -First 1
 
-          if (-not (Test-Path $exePath)) {
-            Write-Error "❌ Cannot find Divergency.exe at $exePath"
-            exit 1
-          }
-          if (-not (Test-Path $nsiScript)) {
-            Write-Error "❌ Cannot find installer.nsi at $nsiScript"
+          if (-not $script) {
+            Write-Error "❌ installer.nsi not found anywhere under $ws"
             exit 1
           }
 
-          # Run NSIS with full paths
-          & makensis -DOUTPUT_EXE="$exePath" "$nsiScript"
+          $exe = Join-Path $ws "dist\Divergency.exe"
+          Write-Host "Using NSI script: $($script.FullName)"
+          Write-Host "Using EXE:        $exe"
 
+          if (-not (Test-Path $exe)) {
+            Write-Error "❌ Cannot find Divergency.exe at $exe"
+            exit 1
+          }
+
+          & makensis -DOUTPUT_EXE="$exe" "$($script.FullName)"
+          
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
