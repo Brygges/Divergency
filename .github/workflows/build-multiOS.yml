@@ -45,12 +45,12 @@ jobs:
               --name=Divergency \
               --onefile \
               --noconsole \
-              --add-data=backend/AllSpecies;AllSpecies \
-              --add-data=backend/Superposed;Superposed \
-              --add-data=backend/images;images \
-              --add-data=backend/node_clusters.json;node_clusters.json \
-              --add-data=backend/allspecies_db;allspecies_db \
-              --add-data=backend/data.json;data.json \
+              --add-data=backend/AllSpecies:AllSpecies \
+              --add-data=backend/Superposed:Superposed \
+              --add-data=backend/images:images \
+              --add-data=backend/node_clusters.json:node_clusters.json \
+              --add-data=backend/allspecies_db:allspecies_db \
+              --add-data=backend/data.json:data.json \
               --hidden-import=flask.cli \
               flaskrun.py
           else
