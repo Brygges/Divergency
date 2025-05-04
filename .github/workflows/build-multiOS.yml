@@ -78,15 +78,22 @@ jobs:
             -volname "Divergency" \
             -srcfolder dist/Divergency.app \
             -ov -format UDZO
-
+      
       - name: Create Windows installer
         if: matrix.os == 'windows-latest'
-        shell: bash
+        # Use PowerShell so we can use backslashes naturally
+        shell: pwsh
         run: |
-          # Make sure installer.nsi lives at the repo root; otherwise `cd` into the right folder
-          ls dist
-          cd .
-          makensis -DOUTPUT_EXE="dist\\Divergency.exe" installer.nsi
+          Write-Host "Current directory:"
+          pwd
+          Write-Host "Listing files:"
+          Get-ChildItem -Recurse | Select-Object FullName
+
+          # Ensure we're at the repo root (where installer.nsi lives)
+          Set-Location $Env:GITHUB_WORKSPACE
+
+          # Build the NSIS installer, pointing at the freshly-built EXE
+          & makensis -DOUTPUT_EXE="$Env:GITHUB_WORKSPACE\dist\Divergency.exe" "$Env:GITHUB_WORKSPACE\installer.nsi"
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
