@@ -43,7 +43,8 @@ jobs:
         shell: bash
         run: |
           pyinstaller \
-            --onefile \
+            --name=Divergency \
+            --windowed \
             --add-data=backend/AllSpecies:AllSpecies \
             --add-data=backend/Superposed:Superposed \
             --add-data=backend/images:images \
