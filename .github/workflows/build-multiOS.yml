@@ -54,23 +54,22 @@ jobs:
             --hidden-import=flask.cli \
             flaskrun.py
 
-      - name: Install create-dmg via Homebrew
-        if: runner.os == 'macOS'
+      - name: Create macOS DMG
+        if: matrix.os == 'macos-latest'
+        shell: bash
         run: |
-          brew update
-          brew install create-dmg
-            
-      - name: Package installer
-        run: |
-          if [[ "${{ matrix.os }}" == "macos-latest" ]]; then
-            hdiutil create \
+          hdiutil create \
             dist/Divergency.dmg \
             -volname "Divergency" \
             -srcfolder dist/Divergency.app \
             -ov -format UDZO
-          else
-            makensis -DOUTPUT_EXE="dist\\flaskrun.exe" installer.nsi
-          fi
+
+      # Windows: wrap the .exe in an NSIS installer
+      - name: Create Windows installer
+        if: matrix.os == 'windows-latest'
+        shell: bash
+        run: |
+          makensis -DOUTPUT_EXE="dist\Divergency.exe" installer.nsi
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
@@ -78,4 +77,4 @@ jobs:
           name: ${{ matrix.os }}-bundle
           path: |
             dist/*.dmg
-            dist/*.exe
+            dist/*-Setup.exe
