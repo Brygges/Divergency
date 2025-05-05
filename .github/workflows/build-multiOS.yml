@@ -86,7 +86,7 @@ jobs:
         run: |
           $ws     = $Env:GITHUB_WORKSPACE
           $script = Join-Path $ws "installer.nsi"
-          $exe    = Join-Path $ws "dist\Divergency.exe"
+          $exe    = Join-Path $ws "dist\Divergency\Divergency.exe"
       
           if (-not (Test-Path $script)) {
             Write-Error "installer.nsi not found at $script"
