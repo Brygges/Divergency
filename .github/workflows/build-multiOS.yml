@@ -30,7 +30,7 @@ jobs:
           DRIVE_FOLDER_ID: ${{ secrets.DRIVE_FOLDER_ID }}
         run: |
           mkdir -p backend
-          gdown "https://docs.google.com/uc?export=download&id=1KgsBeUIu0tXvP5UGyto-rSZblVFW03Jo" --fuzzy -O backend/backend.tar.gz
+          gdown "https://www.dropbox.com/scl/fi/wz4fgceoerpf1mr8o03za/backend.tar.gz?rlkey=wiuvjtw8r8nn4mrbxa9i0effd&st=2jl9nifc&dl=0" --fuzzy -O backend/backend.tar.gz
           file backend/backend.tar.gz
           tar -xzf backend/backend.tar.gz
           rm backend/backend.tar.gz
