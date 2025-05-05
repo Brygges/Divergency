@@ -11,10 +11,7 @@ Page instfiles
 
 Section "Install"
   SetOutPath "$INSTDIR"
-  
-  ; Copy the single .exe that already contains everything
-  File /oname=$INSTDIR\${EXE_NAME} "dist\${EXE_NAME}"
-  
-  ; Optionally, create a desktop shortcut
+  ; Copy the bundled directory's single .exe
+  File /oname=$INSTDIR\${EXE_NAME} "dist\Divergency\${EXE_NAME}"
   CreateShortcut "$DESKTOP\${APP_NAME}.lnk" "$INSTDIR\${EXE_NAME}"
 SectionEnd
