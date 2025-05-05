@@ -34,6 +34,28 @@ jobs:
           file backend/backend.tar.gz
           tar -xzf backend/backend.tar.gz
           rm backend/backend.tar.gz
+          
+      - name: Download Foldseek
+        shell: bash
+        run: |
+          mkdir -p foldseek
+
+          if [[ "${{ matrix.os }}" == "macos-latest" ]]; then
+            # macOS Universal build
+            URL="https://mmseqs.com/foldseek/foldseek-osx-universal.tar.gz"
+          else
+            # assume ubuntu-latest instead of windows-latest for Linux builds
+            # (Foldseek doesn't publish a native Windows binary)
+            URL="https://mmseqs.com/foldseek/foldseek-linux-avx2.tar.gz"
+          fi
+
+          echo "Fetching Foldseek from $URL"
+          wget -qO foldseek/foldseek.tar.gz "$URL"
+          tar -xvzf foldseek/foldseek.tar.gz -C foldseek --strip-components=1
+          rm foldseek/foldseek.tar.gz
+
+          # verify
+          ls -R foldseek
 
       - name: Build standalone bundle
         shell: bash
@@ -46,9 +68,11 @@ jobs:
               --add-data=backend/AllSpecies:AllSpecies \
               --add-data=backend/Superposed:Superposed \
               --add-data=backend/images:images \
-              --add-data=backend/node_clusters.json:node_clusters.json \
-              --add-data=backend/allspecies_db:allspecies_db \
-              --add-data=backend/data.json:data.json \
+              --add-data=backend/node_clusters.json:. \
+              --add-data=backend/allspecies_db:. \
+              --add-data=backend/data.json:. \
+              --add-data=backend/index.html:. \
+              --add-data=foldseek:foldseek \
               --hidden-import=flask.cli \
               flaskrun.py
           else
@@ -59,9 +83,11 @@ jobs:
               --add-data=backend/AllSpecies:AllSpecies \
               --add-data=backend/Superposed:Superposed \
               --add-data=backend/images:images \
-              --add-data=backend/node_clusters.json:node_clusters.json \
-              --add-data=backend/allspecies_db:allspecies_db \
-              --add-data=backend/data.json:data.json \
+              --add-data=backend/node_clusters.json:. \
+              --add-data=backend/allspecies_db:. \
+              --add-data=backend/data.json:. \
+              --add-data=backend/index.html:. \
+              --add-data=foldseek:foldseek \
               --hidden-import=flask.cli \
               flaskrun.py
           fi
