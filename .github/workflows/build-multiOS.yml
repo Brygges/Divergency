@@ -22,7 +22,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt pyinstaller gdown wget
+          pip install -r requirements.txt pyinstaller gdown
 
       - name: Download backend data from Google Drive
         shell: bash
@@ -50,7 +50,7 @@ jobs:
           fi
 
           echo "Fetching Foldseek from $URL"
-          wget -qO foldseek/foldseek.tar.gz "$URL"
+          curl -qO foldseek/foldseek.tar.gz "$URL"
           tar -xvzf foldseek/foldseek.tar.gz -C foldseek --strip-components=1
           rm foldseek/foldseek.tar.gz
 
