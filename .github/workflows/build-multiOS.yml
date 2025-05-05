@@ -38,8 +38,8 @@ jobs:
       - name: Build standalone bundle
         shell: bash
         run: |
-          # On macOS this creates dist/Divergency.app via --windowed
-          # On Windows it creates dist/Divergency.exe via --onefile --noconsole
+          # On macOS this create dist/Divergency.app via --windowed
+          # On Windows it create dist/Divergency.exe via --onefile --noconsole
           if [[ "${{ matrix.os }}" == "windows-latest" ]]; then
             pyinstaller \
               --name=Divergency \
