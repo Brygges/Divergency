@@ -43,7 +43,7 @@ jobs:
           if [[ "${{ matrix.os }}" == "windows-latest" ]]; then
             pyinstaller \
               --name=Divergency \
-              --onefile \
+              --onedir \
               --noconsole \
               --add-data=backend/AllSpecies:AllSpecies \
               --add-data=backend/Superposed:Superposed \
@@ -56,6 +56,7 @@ jobs:
           else
             pyinstaller \
               --name=Divergency \
+              --onedir \
               --windowed \
               --add-data=backend/AllSpecies:AllSpecies \
               --add-data=backend/Superposed:Superposed \
