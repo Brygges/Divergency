@@ -38,19 +38,17 @@ jobs:
       - name: Build standalone bundle
         shell: bash
         run: |
-          # On macOS this create dist/Divergency.app via --windowed
-          # On Windows it create dist/Divergency.exe via --onefile --noconsole
           if [[ "${{ matrix.os }}" == "windows-latest" ]]; then
             pyinstaller \
               --name=Divergency \
               --onedir \
               --noconsole \
-              --add-data=backend/AllSpecies:AllSpecies \
-              --add-data=backend/Superposed:Superposed \
-              --add-data=backend/images:images \
-              --add-data=backend/node_clusters.json:node_clusters.json \
-              --add-data=backend/allspecies_db:allspecies_db \
-              --add-data=backend/data.json:data.json \
+              --add-data=backend/AllSpecies;AllSpecies \
+              --add-data=backend/Superposed;Superposed \
+              --add-data=backend/images;images \
+              --add-data=backend/node_clusters.json;node_clusters.json \
+              --add-data=backend/allspecies_db;allspecies_db \
+              --add-data=backend/data.json;data.json \
               --hidden-import=flask.cli \
               flaskrun.py
           else
@@ -68,41 +66,23 @@ jobs:
               flaskrun.py
           fi
 
-      - name: Create macOS DMG
+      - name: Package macOS build
         if: matrix.os == 'macos-latest'
         shell: bash
         run: |
-          ls dist
-          # dist/Divergency.app must exist
-          hdiutil create \
-            dist/Divergency.dmg \
-            -volname "Divergency" \
-            -srcfolder dist/Divergency.app \
-            -ov -format UDZO
-      
-      - name: Create Windows installer
+          cd dist
+          zip -r Divergency-macos.zip Divergency.app
+
+      - name: Package Windows build
         if: matrix.os == 'windows-latest'
-        shell: pwsh
+        shell: bash
         run: |
-          $ws     = $Env:GITHUB_WORKSPACE
-          $script = Join-Path $ws "installer.nsi"
-          $exe    = Join-Path $ws "dist\Divergency\Divergency.exe"
-      
-          if (-not (Test-Path $script)) {
-            Write-Error "installer.nsi not found at $script"
-            exit 1
-          }
-          if (-not (Test-Path $exe)) {
-            Write-Error "Divergency.exe not found at $exe"
-            exit 1
-          }
-      
-          & makensis -DOUTPUT_EXE="$exe" "$script"
-          
-      - name: Upload artifact
+          cd dist
+          zip -r Divergency-windows.zip Divergency
+
+      - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.os }}-bundle
           path: |
-            dist/*.dmg
-            dist/*-Setup.exe
+            dist/Divergency-*.zip
