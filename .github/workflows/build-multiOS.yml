@@ -52,7 +52,7 @@ jobs:
           fi
 
           echo "Fetching Foldseek from $URL"
-          curl -qO foldseek/foldseek.tar.gz "$URL"
+          curl -L "$URL" -o foldseek/foldseek.tar.gz
           tar -xvzf foldseek/foldseek.tar.gz -C foldseek --strip-components=1
           rm foldseek/foldseek.tar.gz
 
