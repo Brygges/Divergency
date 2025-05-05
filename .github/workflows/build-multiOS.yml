@@ -75,10 +75,13 @@ jobs:
 
       - name: Package Windows build
         if: matrix.os == 'windows-latest'
-        shell: bash
+        shell: pwsh
         run: |
-          cd dist
-          zip -r Divergency-windows.zip Divergency
+          # Compress the entire onedir folder into a zip
+          $src = Join-Path $Env:GITHUB_WORKSPACE "dist\Divergency"
+          $dst = Join-Path $Env:GITHUB_WORKSPACE "dist\Divergency-windows.zip"
+          if (Test-Path $dst) { Remove-Item $dst }
+          Compress-Archive -Path "$src\*" -DestinationPath $dst -Force
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
