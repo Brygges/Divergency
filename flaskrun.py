@@ -30,7 +30,7 @@ with open(clusters_json, "r") as f:
     NODE_CLUSTERS: Dict[str, int] = json.load(f)
 
 # Path to prebuilt Foldseek DB (build with: foldseek createdb AllSpecies/ allspecies_db)
-FOLDSEEK_DB = os.path.join(base_path, "allspecies_db")
+FOLDSEEK_DB = os.path.join(base_path, "AllSpecies")
 if not os.path.exists(FOLDSEEK_DB):
     raise FileNotFoundError(f"Foldseek DB not found at {FOLDSEEK_DB}")
 
@@ -174,7 +174,6 @@ def classify():
     finally:
         shutil.rmtree(tmp_dir)
 
-
 def open_browser():
     import time
     time.sleep(1)
@@ -183,7 +182,6 @@ def open_browser():
 if __name__ == '__main__':
     threading.Thread(target=open_browser).start()
     app.run(debug=False)
-
 
 # Where are your 3Di clusters stored?
 #CLUSTERS_DIR = Path(os.path.join(os.path.dirname(__file__), "clusters"))
