@@ -31,7 +31,7 @@ jobs:
         run: |
           mkdir -p backend
           curl -L \
-            "https://sid.erda.dk/share_redirect/Hwg7dzm6Q6" \
+            "https://sid.erda.dk/share_redirect/fAEecexUPk" \
             -o backend/backend.tar.gz
           file backend/backend.tar.gz
           tar -xzf backend/backend.tar.gz
@@ -72,7 +72,6 @@ jobs:
               --add-data=backend/Superposed:Superposed \
               --add-data=backend/images:images \
               --add-data=backend/node_clusters.json:. \
-              --add-data=backend/allspecies_db:. \
               --add-data=backend/data.json:. \
               --add-data=backend/index.html:. \
               --add-data=foldseek:foldseek \
@@ -87,7 +86,6 @@ jobs:
               --add-data=backend/Superposed:Superposed \
               --add-data=backend/images:images \
               --add-data=backend/node_clusters.json:. \
-              --add-data=backend/allspecies_db:. \
               --add-data=backend/data.json:. \
               --add-data=backend/index.html:. \
               --add-data=foldseek:foldseek \
