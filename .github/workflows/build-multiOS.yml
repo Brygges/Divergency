@@ -34,7 +34,7 @@ jobs:
             "https://sid.erda.dk/share_redirect/fAEecexUPk" \
             -o backend/backend.tar.gz
           file backend/backend.tar.gz
-          tar -xzf backend/backend.tar.gz
+          tar -xzf backend/backend.tar.gz -C backend
           ls backend/
           rm backend/backend.tar.gz
           
