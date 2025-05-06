@@ -35,6 +35,7 @@ jobs:
             -o backend/backend.tar.gz
           file backend/backend.tar.gz
           tar -xzf backend/backend.tar.gz
+          ls backend/
           rm backend/backend.tar.gz
           
       - name: Download Foldseek
