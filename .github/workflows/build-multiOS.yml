@@ -57,6 +57,7 @@ jobs:
           rm foldseek/foldseek.tar.gz
 
           # verify
+          chmod +x foldseek/bin/foldseek
           ls -R foldseek
 
       - name: Build standalone bundle
