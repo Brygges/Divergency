@@ -31,7 +31,7 @@ jobs:
         run: |
           mkdir -p backend
           curl -L \
-            "https://sid.erda.dk/share_redirect/fAEecexUPk" \
+            "https://sid.erda.dk/share_redirect/Adqj2ihf9v" \
             -o backend/backend.tar.gz
           file backend/backend.tar.gz
           tar -xzf backend/backend.tar.gz -C backend
