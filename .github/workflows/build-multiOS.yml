@@ -66,7 +66,7 @@ jobs:
         run: |
           if [[ "${{ matrix.os }}" == "windows-latest" ]]; then
             pyinstaller \
-              --name=Divergency \
+              --name=CoNAT \
               --onedir \
               --noconsole \
               --add-data=backend/AllSpecies:AllSpecies \
@@ -81,7 +81,7 @@ jobs:
               flaskrun.py
           else
             pyinstaller \
-              --name=Divergency \
+              --name=CoNAT \
               --onedir \
               --windowed \
               --add-data=backend/AllSpecies:AllSpecies \
@@ -118,4 +118,4 @@ jobs:
         with:
           name: ${{ matrix.os }}-bundle
           path: |
-            dist/Divergency-*.zip
+            dist/CoNAT-*.zip
