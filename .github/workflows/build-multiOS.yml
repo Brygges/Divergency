@@ -73,6 +73,7 @@ jobs:
               --add-data=backend/Superposed:Superposed \
               --add-data=backend/images:images \
               --add-data=backend/static/node_clusters.json:static \
+              --add-data=backend/static/node_clusters.json:. \
               --add-data=backend/static/data.json:static \
               --add-data=backend/static/scripts.js:static \
               --add-data=backend/static/styles.css:static \
@@ -90,6 +91,7 @@ jobs:
               --add-data=backend/Superposed:Superposed \
               --add-data=backend/images:images \
               --add-data=backend/static/node_clusters.json:static \
+              --add-data=backend/static/node_clusters.json:. \
               --add-data=backend/static/data.json:static \
               --add-data=backend/static/scripts.js:static \
               --add-data=backend/static/styles.css:static \
