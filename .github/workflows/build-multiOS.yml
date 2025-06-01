@@ -74,8 +74,8 @@ jobs:
               --add-data=backend/images:images \
               --add-data=backend/static/node_clusters.json:. \
               --add-data=backend/static/data.json:. \
-              --add-data=backend/static/scripts.js:. \
-              --add-data=backend/static/styles.css:. \
+              --add-data=backend/static/scripts.js:static \
+              --add-data=backend/static/styles.css:static \
               --add-data=backend/static/favicon.ico:. \
               --add-data=backend/index.html:. \
               --add-data=foldseek:foldseek \
@@ -91,8 +91,8 @@ jobs:
               --add-data=backend/images:images \
               --add-data=backend/static/node_clusters.json:. \
               --add-data=backend/static/data.json:. \
-              --add-data=backend/static/scripts.js:. \
-              --add-data=backend/static/styles.css:. \
+              --add-data=backend/static/scripts.js:static \
+              --add-data=backend/static/styles.css:static \
               --add-data=backend/static/favicon.ico:. \
               --add-data=backend/index.html:. \
               --add-data=foldseek:foldseek \
